@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <script defer type ="module" src="./index.js"></script>
+    <title>Les petits plats</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="./images/logo.svg" alt="logo du site les petits plats">
+            <h1>Les petits plats</h1>
+        </div>
+        <form class="search" method="POST" action="search.php">
+            <label for="multiple-search"></label>
+            <input type="text" placeholder='Rechercher un ingrédient, appareil, ustensiles ou une recette' id="multiple-search" aria-label="Search general" autocomplete="off">
+            <button type="submit" id="btnSearch"></button>
+            <ul id="suggestion">
+            </ul>
+        </form>
+        <div class="filter">
+            <select class="filter__select blue">
+                <option value="ingredients">
+                    Ingrédients
+                </option>
+            </select>
+            <select class="filter__select green">
+                <option value="Appareil">
+                    Appareil
+                </option>
+            </select>
+            <select class="filter__select red">
+                <option value="Ustensiles">
+                    Ustensiles
+                </option>
+            </select>
+        </div>
+    </header>
+    <main id="wrapper"></main>
+    <footer></footer>
+</body>
+</html>
+

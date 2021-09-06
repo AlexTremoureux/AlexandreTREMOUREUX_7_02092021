@@ -1,0 +1,138 @@
+/*      font-family: 'DM Sans', sans-serif;
+        font-family: 'Lato', sans-serif;
+        font-family: 'Roboto', sans-serif;         */
+
+.logo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0px;
+}
+h1 {
+    margin: 5px 0px 5px 0px;
+    color: #D04F4F;
+    font-size: 36px;
+    font-family: 'DM Sans', sans-serif;
+}
+.search {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    margin: auto;
+}
+#btnSearch {
+    position: absolute;
+    display: none;
+}
+input {
+    width: 100%;
+    height: 70px;
+    border-radius: 5px;
+    padding-left: 22px;
+    font-size: 18px;
+    margin: auto;
+    background-color: #E7E7E7;
+    border: none;
+    font-family: 'Lato', sans-serif;
+    background: url(./images/search.svg) 98% center / 32px 32px no-repeat #E7E7E7;
+}
+#suggestion {
+    list-style: none;
+    display: none;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 40%;
+    height: 200px;
+    padding-left: 20px;
+    background-color: #E7E7E7;
+}
+.filter {
+    width: 90%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: auto;
+}
+.filter__select {
+    width: 170px;
+    height: 69px;
+    border-radius: 5px;
+    font-family: 'Lato', sans-serif;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 20px 20px 20px 0px;
+    padding: 15px;
+}
+.blue {
+    background-color: #3282F7;
+}
+.green {
+    background-color: #68D9A4;
+}
+.red {
+    background-color: #ED6454;
+}
+#wrapper {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-around;
+    margin: auto;
+}
+.container {
+    width: 380px;
+    height: 364px;
+    margin-bottom: 30px;
+}
+.illustration {
+    height: 50%;
+    background-color: #C7BEBE;
+    border-radius: 5px 5px 0px 0px;
+}
+.recipeItem {
+    height: 50%;
+    padding: 0px 15px;
+    overflow: hidden;
+    background-color: #E7E7E7;
+    border-radius: 0px 0px 5px 5px;
+}
+.head, .contenu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.head {
+    height: 30%;
+}
+.contenu {
+    height: 65%;
+    padding: 5px;
+}
+.description {
+    width: 50%;
+    height: 50%;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: 'Roboto', sans-serif;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.ingredients {
+    width: 50%;
+    list-style: none;
+    padding-left: 0px;
+}
+.ingredients li {
+    margin-left: 0px;
+}
