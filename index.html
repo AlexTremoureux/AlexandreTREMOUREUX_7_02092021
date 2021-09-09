@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,8 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./style.css">
-    <script defer type ="module" src="./index.js"></script>
+    <link rel="stylesheet" href="./styles/style.css">
+    <script defer type ="module" src="./scripts/index.js"></script>
     <title>Les petits plats</title>
 </head>
 <body>
@@ -25,21 +25,24 @@
             </ul>
         </form>
         <div class="filter">
-            <select class="filter__select blue">
-                <option value="ingredients">
-                    Ingrédients
-                </option>
-            </select>
-            <select class="filter__select green">
-                <option value="Appareil">
-                    Appareil
-                </option>
-            </select>
-            <select class="filter__select red">
-                <option value="Ustensiles">
-                    Ustensiles
-                </option>
-            </select>
+            <div class="filter__select blue">
+                <label class="labelInput" for="inputIngredients">Ingrédients</label>
+                <div class="wrapperInputFilter">
+                    <input id="inputIngredients" class="inputFilter blue" type="text" placeholder="Rechercher un ingrédient ...">
+                </div>
+            </div>
+            <div class="filter__select green">
+                <label class="labelInput" for="inputAppareil">Appareil</label>
+                <div class="wrapperInputFilter">
+                    <input id="inputAppareil" class="inputFilter green" type="text" placeholder="Rechercher un appareil ...">
+                </div>
+            </div>
+            <div class="filter__select red">
+                <label class="labelInput" for="inputUstensiles">Ustensiles</label>
+                <div class="wrapperInputFilter">
+                    <input id="inputUstensiles" class="inputFilter red" type="text" placeholder="Rechercher un ustensile ...">
+                </div>
+            </div>
         </div>
     </header>
     <main id="wrapper"></main>
