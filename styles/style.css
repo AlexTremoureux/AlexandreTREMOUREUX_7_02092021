@@ -62,8 +62,9 @@ h1 {
     display: flex;
     justify-content: left;
     align-items: center;
-    width: 170px;
-    height: 69px;
+    min-width: 170px;
+    max-width: 70%;
+    min-height: 69px;
     border-radius: 5px;
     font-family: 'Lato', sans-serif;
     color: white;
@@ -75,12 +76,18 @@ h1 {
 }
 .wrapperInputFilter {
     display: none;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 700px;
+    background-color: #3282F7;
+    height: 300px;
 }
 .inputFilter::placeholder {
     color: white;
     font-weight: 700;
     font-size: 18px;
     opacity: 50%;
+    width: 100%;
 }
 .blue {
     background-color: #3282F7;

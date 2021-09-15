@@ -1,6 +1,7 @@
 import {recipes} from './recipes.js'
 import { search, wrapper } from './constantes.js'
 import { displayAllRecipes, mainSearchDisplayMatchRecipes } from './displayFunctions.js';
+import { getIngredients } from './searchFunctions.js';
 
 // Affichage de toutes les recettes au chargement de la page
 displayAllRecipes(recipes);
@@ -23,11 +24,23 @@ search.addEventListener('keyup', () => {
 
 const filterSelect = document.querySelectorAll('.filter__select');
 filterSelect.forEach(filter => filter.addEventListener('click', (e) => {
-  const wrapperInputFilter = document.querySelectorAll('.wrapperInputFilter')
-  const labelInput = document.querySelectorAll('.labelInput')
-  console.log(e.currentTarget.nextElementSibling)
-  wrapperInputFilter.forEach(item =>item.style.display = 'flex')
-  labelInput.forEach(item => item.style.display = 'none')
+  console.log(e.currentTarget.firstChild)
+  const wrapperInputFilter = filter.querySelector('.wrapperInputFilter')
+  const labelInput = filter.querySelector('.labelInput')
+  const listItems = document.createElement('ul');
+  listItems.classList.add('listItems');
+  
+  wrapperInputFilter.style.display = 'flex'
+  labelInput.style.display = 'none';
+  wrapperInputFilter.appendChild(listItems)
+  getIngredients().forEach(ingredient => {
+    wrapperInputFilter.innerHTML += `
+    <li>
+    <a>${ingredient.name}</a>
+    </li>
+    `
+  })
+  
 }))
     
 

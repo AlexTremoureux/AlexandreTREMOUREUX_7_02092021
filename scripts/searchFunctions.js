@@ -1,7 +1,7 @@
 import { recipes } from "./recipes.js";
 
 // Recherche des ingrédients
-const getIngredients = () => {
+  export const getIngredients = () => {
     let allIngredients = [];
     recipes.forEach((recipe) => {
       recipe.ingredients.forEach((liste) => {
@@ -16,7 +16,7 @@ const getIngredients = () => {
   };
   
   // Recherche des Appareils
-  const getAppliance = () => {
+  export const getAppliance = () => {
     let allAppliances = [];
     recipes.forEach((recipe) => {
       allAppliances.push(recipe.appliance.toLowerCase())
@@ -29,7 +29,7 @@ const getIngredients = () => {
   }
   
   // Recherche des Ustensiles
-  const getUstensils = () => {
+  export const getUstensils = () => {
     let allUstensils = [];
     recipes.forEach((recipe) => {
       recipe.ustensils.forEach((ustensil) => {
