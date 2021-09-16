@@ -1,5 +1,6 @@
 import { wrapper } from "./constantes.js";
 
+// Class Recette de cuisine
 export class Recipe {
     constructor(title, time, ingredients, description) {
       this.element = this.buildDom(title, time, description);
@@ -9,7 +10,7 @@ export class Recipe {
       this.description = description;
       this.addIngredients(ingredients)
     }
-    // Affichage du titre de la recette, sa durée et sa description
+    // Construction de DOM et affichage du titre / durée / description de la recette.
     buildDom(title, time, description) {
       this.title = title;
       this.time = time;

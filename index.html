@@ -13,31 +13,34 @@
 </head>
 <body>
     <header>
+        <!-- Logo du site -->
         <div class="logo">
             <img src="./images/logo.svg" alt="logo du site les petits plats">
             <h1>Les petits plats</h1>
         </div>
-        <form class="search" method="POST" action="search.php">
+        <!-- Barre de recherche principale -->
+        <form class="search">
             <label for="multiple-search"></label>
             <input type="text" placeholder='Rechercher un ingrédient, appareil, ustensiles ou une recette' id="multiple-search" aria-label="Search general" autocomplete="off">
-            <button type="submit" id="btnSearch"></button>
-            <ul id="suggestion">
-            </ul>
         </form>
+        <!-- Filtres par Tags -->
         <div class="filter">
-            <div class="filter__select blue">
+            <!-- Tags Ingrédients -->
+            <div class="filter__select blue ingredient">
                 <label class="labelInput" for="inputIngredients">Ingrédients</label>
                 <div class="wrapperInputFilter">
                     <input id="inputIngredients" class="inputFilter blue" type="text" placeholder="Rechercher un ingrédient ...">
                 </div>
             </div>
-            <div class="filter__select green">
+            <!-- Tags Appareils -->
+            <div class="filter__select green appareils">
                 <label class="labelInput" for="inputAppareil">Appareil</label>
                 <div class="wrapperInputFilter">
                     <input id="inputAppareil" class="inputFilter green" type="text" placeholder="Rechercher un appareil ...">
                 </div>
             </div>
-            <div class="filter__select red">
+            <!-- Tags Ustensiles -->
+            <div class="filter__select red ustensiles">
                 <label class="labelInput" for="inputUstensiles">Ustensiles</label>
                 <div class="wrapperInputFilter">
                     <input id="inputUstensiles" class="inputFilter red" type="text" placeholder="Rechercher un ustensile ...">
@@ -45,7 +48,9 @@
             </div>
         </div>
     </header>
+    <!-- Contenu principal affichant les recettes de cuisine -->
     <main id="wrapper"></main>
+    <!-- Footer -->
     <footer></footer>
 </body>
 </html>
