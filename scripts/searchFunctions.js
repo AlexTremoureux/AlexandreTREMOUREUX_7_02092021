@@ -5,7 +5,7 @@ import { recipes } from "./recipes.js";
     let allIngredients = [];
     recipes.forEach((recipe) => {
       recipe.ingredients.forEach((liste) => {
-          allIngredients.push(liste.ingredient.toLowerCase());
+          allIngredients.push(liste.ingredient);
       });
     });
     allIngredients = Array.from(new Set (allIngredients))

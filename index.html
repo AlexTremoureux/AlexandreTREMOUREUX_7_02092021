@@ -23,13 +23,16 @@
             <label for="multiple-search"></label>
             <input type="text" placeholder='Rechercher un ingrédient, appareil, ustensiles ou une recette' id="multiple-search" aria-label="Search general" autocomplete="off">
         </form>
+        <!-- Tags -->
+        <div class="wrapperTags"></div>
         <!-- Filtres par Tags -->
         <div class="filter">
             <!-- Tags Ingrédients -->
-            <div class="filter__select blue ingredient">
+            <div id="ingredient" class="filter__select blue">
                 <label class="labelInput" for="inputIngredients">Ingrédients</label>
                 <div class="wrapperInputFilter">
                     <input id="inputIngredients" class="inputFilter blue" type="text" placeholder="Rechercher un ingrédient ...">
+                    <ul class="listItems"></ul>
                 </div>
             </div>
             <!-- Tags Appareils -->
@@ -37,6 +40,7 @@
                 <label class="labelInput" for="inputAppareil">Appareil</label>
                 <div class="wrapperInputFilter">
                     <input id="inputAppareil" class="inputFilter green" type="text" placeholder="Rechercher un appareil ...">
+                    <ul class="listItems"></ul>
                 </div>
             </div>
             <!-- Tags Ustensiles -->
@@ -44,6 +48,7 @@
                 <label class="labelInput" for="inputUstensiles">Ustensiles</label>
                 <div class="wrapperInputFilter">
                     <input id="inputUstensiles" class="inputFilter red" type="text" placeholder="Rechercher un ustensile ...">
+                    <ul class="listItems"></ul>
                 </div>
             </div>
         </div>
