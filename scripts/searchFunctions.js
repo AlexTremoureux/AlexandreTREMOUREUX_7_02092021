@@ -1,9 +1,9 @@
 import { recipes } from "./recipes.js";
 
 // Recherche des ingrédients
-  export const getIngredients = () => {
+  export const getIngredients = (array) => {
     let allIngredients = [];
-    recipes.forEach((recipe) => {
+    array.forEach((recipe) => {
       recipe.ingredients.forEach((liste) => {
           allIngredients.push(liste.ingredient);
       });

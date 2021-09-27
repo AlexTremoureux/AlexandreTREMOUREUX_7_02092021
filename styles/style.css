@@ -208,13 +208,19 @@ h3, p {
     font-size: 18px;
     cursor: pointer;
 }
-.wrapperTags {
+#wrapperTags {
     display: flex;
     margin-top: 30px;
     width: 90%;
     margin: 30px auto auto auto;
 }
 .tags {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: white;
     background: #3282F7;
     width: max-content;
     margin-right: 5px;
@@ -222,17 +228,7 @@ h3, p {
     border-radius: 5px;
     
 }
-.tags > button {
-    background: #3282F7;
-    border: none;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 5px;
-    font-weight: 700;
-    font-size: 14px;
-}
-.tags > button > img {
+
+.tags > img {
     margin-left: 10px;
 }

@@ -3,45 +3,34 @@ import { displayRecipes } from './displayFunctions.js';
 import { tagsArray } from './constantes.js';
 
 export class Tags {
+tagList = [];
+recipesFilterByTags = recipes;
 
-    constructor (name) {
-        this.element = this.buildDOM(name);
-        this.name = name;
-        this.filterByTag(name)
+    constructor () {
     }
-    buildDOM(name) {
-        this.name = name;
-        const wrapperTags = document.querySelector('.wrapperTags');
-        const container = document.createElement('div');
-        container.classList.add('tags');
-        const value = document.createElement('button');
-        wrapperTags.appendChild(container);
-        container.appendChild(value);
-        value.innerHTML+=`${this.name}`
-        const btnClose = document.createElement('img');
-        btnClose.classList.add('btnClose')
-        btnClose.src = './images/close.svg';
-        value.appendChild(btnClose);
-        
-        btnClose.addEventListener('click',close = () => {
-            wrapperTags.remove(container)
-        } )
-    }
-    filterByTag(name) {
-        const wrapperTags = document.querySelector('.wrapperTags')
-        this.name = name;
-        tagsArray.push(name.toLowerCase())
-        const resultIngredient = recipes.filter(recipe => recipe.ingredients.map(ingre => ingre.ingredient.toLowerCase()).includes(tagsArray[0]));
-        const arrayRecipesMatch = Array.from (new Set ([... resultIngredient]));
-        let arrayFilterByTag = arrayRecipesMatch
-        
-        if (tagsArray.length > 1) {
-            const newResultIngredient = arrayFilterByTag.filter(recipe => recipe.ingredients.map(ingre => ingre.ingredient.toLowerCase()).includes(tagsArray[1]))
-            displayRecipes(newResultIngredient)
-        } 
-        //wrapperTags.childElementCount?
-        else displayRecipes(arrayRecipesMatch)
 
+    displayTags = () => {
+        const wrapperTags = document.getElementById('wrapperTags');
+        if (this.tagList.length) {
+            wrapperTags.innerHTML = ``;
+            this.tagList.forEach(tag => {
+                wrapperTags.innerHTML += `<div class='tags'>${tag}<img class='closeTag' src="./images/close.svg" alt=""></div>`;
+            });
+        }
+    }
+    filterRecipesByTagsTypeIngredient = () => {
+        const resultIngredient = this.recipesFilterByTags.filter(recipe => {
+            const ingredientList = recipe.ingredients.map(item => item.ingredient);
+            const filter = this.tagList.filter(tag => ingredientList.includes(tag))
+            return filter.length === this.tagList.length;
+        });
+        this.recipesFilterByTags = resultIngredient;
+        !recipesFilterByTags.length?noRecipesMatch():displayRecipes(resultIngredient)
+    }
+    addTag = (newTag) => {
+        this.tagList.push(newTag);
+        this.displayTags();
+        this.filterRecipesByTagsTypeIngredient();
     }
     
 }
