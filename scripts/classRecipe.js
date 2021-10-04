@@ -46,14 +46,14 @@ export class Recipe {
       const domIngredients = this.element.querySelector('.ingredients')
       this.ingredients.forEach(ingred => {
         const domListeIngredients = document.createElement('li');
-      domIngredients.appendChild(domListeIngredients);
-        domListeIngredients.innerHTML += `
-        <p><h3>${ingred.ingredient}</h3><span>
-        ${ingred.quantity?": "+ingred.quantity : ''}
-        ${ingred.quantite?": "+ingred.quantite : ''}
-        ${ingred.unit?ingred.unit :''}
-        </span></p>`
+        domIngredients.appendChild(domListeIngredients);
+        const quantity = ingred.quantity || ingred.quantite;
+        if (quantity) {
+          domListeIngredients.innerHTML += `
+          <p><h3>${ingred.ingredient}:</h3><span>
+          ${quantity} ${ingred.unit ? ingred.unit : ''}
+          </span></p>`
+        }
       })
-  
     }
   }
