@@ -1,7 +1,7 @@
 import {recipes} from './recipes.js'
 import { displayRecipes, noRecipesMatch } from './displayFunctions.js';
 import { getAppliance, getIngredients, getUstensils } from './searchFunctions.js';
-import { allDevices, allIngredients, allUstensils, listItemsDevices, listItemsIngredients, listItemsUstensils } from './constantes.js';
+import { allDevices, allIngredients, listItemsDevices, listItemsIngredients, listItemsUstensils } from './constantes.js';
 
 export class Tags {
 tagList = [];
@@ -37,7 +37,7 @@ recipesFilterByTags = [];
             const resultFilter = filter.length === this.tagList.length;
             return resultFilter
         });
-        this.recipesFilterByTags = [...result];
+        this.recipesFilterByTags = result;
         this.displayIngredients(this.recipesFilterByTags)
         this.displayDevice(this.recipesFilterByTags)
         this.displayUstensils(this.recipesFilterByTags)
@@ -63,7 +63,6 @@ recipesFilterByTags = [];
         const isIngred = ingred.includes(true)
         const device = allDevices.map(dev => dev.name.includes(tag))
         const isDevices = device.includes(true)
-        const ustens = allUstensils.map(ust => ust.name.includes(tag))
         let color = '';
         return isIngred ? color = "blue" : isDevices ? color = "green" : color = "red";
     }

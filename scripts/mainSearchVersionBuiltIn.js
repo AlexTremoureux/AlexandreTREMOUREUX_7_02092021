@@ -1,5 +1,5 @@
 import {recipes} from './recipes.js'
-import { allIngredients, search } from './constantes.js'
+import { search } from './constantes.js'
 import { displayDevices, displayIngredients, displayRecipes, displayUstensils, noRecipesMatch } from './displayFunctions.js';
 import { getAppliance, getIngredients, getUstensils } from './searchFunctions.js';
 
@@ -19,7 +19,6 @@ export const searchFunctionV1 = () => {
     // Affichage des recettes correspondantes aux saisies de l'input
     // Si moins de 3 caractères saisis, affichage des recettes, et des items des différents select non filtrés
     if(inputValueToLower.length < 3) {
-      displayIngredients(allIngredients)
       return displayRecipes(recipes)
     } if (!arrayRecipesMatch.length) {
       // Si l'array des résultats matchant avec l'input à une longueur de 0, message d'erreur

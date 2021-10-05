@@ -1,6 +1,6 @@
 import { Recipe } from "./classRecipe.js";
 import { Tags } from "./classTags.js";
-import { listItemsDevices, listItemsIngredients, listItemsUstensils, wrapper } from "./constantes.js";
+import { inputTagDevices, inputTagIngredients, inputTagUstensils, listItemsDevices, listItemsIngredients, listItemsUstensils, search, wrapper } from "./constantes.js";
 import { recipes } from "./recipes.js";
 
 // Si aucun résultat ne match, affichage d'un message avec suggestion de recherche
@@ -32,7 +32,10 @@ export const displayIngredients = (array) => {
   keyword.forEach((keywordItem) => {
       keywordItem.addEventListener('click', () => {
           let newTag = keywordItem.innerHTML;
+          search.value = '';
+          inputTagIngredients.value = '';
           tags.addTag(newTag)
+          
       })
   })
 }
@@ -49,6 +52,8 @@ export const displayDevices = (array) => {
   keyword.forEach((keywordItem) => {
       keywordItem.addEventListener('click', () => {
           let newTag = keywordItem.innerHTML;
+          search.value = '';
+          inputTagDevices.value = '';
           tags.addTag(newTag)
       })
   })
@@ -66,6 +71,8 @@ export const displayUstensils = (array) => {
   keyword.forEach((keywordItem) => {
       keywordItem.addEventListener('click', () => {
           let newTag = keywordItem.innerHTML;
+          search.value='';
+          inputTagUstensils.value = '';
           tags.addTag(newTag)
       })
   })
