@@ -48,10 +48,11 @@ export class Recipe {
         const domListeIngredients = document.createElement('li');
         domIngredients.appendChild(domListeIngredients);
         const quantity = ingred.quantity || ingred.quantite;
+        //const unity = ingred.unit.replace('grammes','g')
         if (quantity) {
           domListeIngredients.innerHTML += `
-          <p><h3>${ingred.ingredient}:</h3><span>
-          ${quantity} ${ingred.unit ? ingred.unit : ''}
+          <p><h3>${ingred.ingredient} :</h3><span class="quantity">
+          ${quantity} ${ingred.unit ? ingred.unit.replace('grammes','g').replace('cuillère à soupe','c. à soupe').replace('cuillères à soupe','c. à soupe').replace('cuillères à café','c. à café') : ''}
           </span></p>`
         }
       })

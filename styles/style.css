@@ -55,10 +55,11 @@ h1 {
     width: 90%;
     display: flex;
     justify-content: left;
-    align-items: center;
+    align-items: flex-start;
     margin: auto;
 }
 .filter__select {
+    position: relative;
     display: flex;
     justify-content: left;
     align-items: center;
@@ -72,21 +73,41 @@ h1 {
     font-weight: 700;
     margin: 20px 20px 20px 0px;
     padding: 15px;
-    background: url(../images/arrow.svg) 90% center / 16px 11px no-repeat
+}
+.labelInput {
+    width: 100%;
+}
+.wrapperIconDropDown {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0px;
+    right: 5px;
+    width: 70px;
+    height: 70px;
+}
+.up {
+    transform: rotateX(180deg);
 }
 .wrapperInputFilter {
     display: none;
     flex-direction: column;
-    width: 700px;
-    /*background-color: #3282F7;*/
-    height: 300px;
+    width: 500px;
+    max-width: 960px;
+    min-width: min-content;
+    max-height: 650px;
+}
+.inputFilter {
+    width: 80%;
+    height: 40px;
+    min-height: 40px;
 }
 .inputFilter::placeholder {
     color: white;
     font-weight: 700;
     font-size: 18px;
     opacity: 50%;
-    width: 100%;
 }
 .blue {
     background-color: #3282F7;
@@ -154,27 +175,34 @@ h1 {
     overflow: hidden;
 }
 .description {
-    width: 50%;
-    padding: 5px 10px 5px 0px;
+    width: 45%;
+    height: 132px;
+    padding: 5px 10px 0px 0px;
     font-size: 12px;
     font-weight: 400;
     font-family: 'Roboto', sans-serif;
+    display: -webkit-box;
+    -webkit-line-clamp: 9;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: clip ellipsis;
+    text-overflow: ellipsis;
 }
 .ingredients {
-    width: 50%;
+    width: 70%;
     list-style: none;
     padding: 5px 5px 5px 10px;
     margin: 0px;
 }
-.ingredients > li  {
+.ingredients > li {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: left;
     align-items: center;
     padding: 0px;
+}
+.quantity {
+    padding-left: 5px;
 }
 h3, p {
     margin: 0;
@@ -220,14 +248,13 @@ h3, p {
     font-weight: 700;
     font-size: 14px;
     color: white;
-    /*background: #3282F7;*/
     width: max-content;
     margin-right: 5px;
     padding: 5px;
     border-radius: 5px;
-    
 }
 
 .tags > img {
     margin-left: 10px;
+    cursor: pointer;
 }

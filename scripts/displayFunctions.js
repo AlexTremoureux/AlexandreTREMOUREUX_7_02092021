@@ -110,3 +110,26 @@ export const displayRecipesMatchByInputSelectUstensils = (array) => {
   arrayRecipeMatchByUstensils = Array.from(new Set (arrayRecipeMatchByUstensils))
   return !arrayRecipeMatchByUstensils.length ? noRecipesMatch() : displayRecipes(arrayRecipeMatchByUstensils);
 }
+// Ouverture du dropdown
+export const open = (visible, hidden, icon) => {
+  hidden.style.display = 'none';
+  visible.style.display = 'flex';
+  icon.classList.add('up');
+}
+// fermeture du dropdown
+export const close = (visible, hidden, icon) => {
+  visible.style.display = 'block';
+  hidden.style.display = 'none';
+  icon.classList.remove('up');
+}
+// Gestion du click en dehors des dropdowns
+export function hideOnClickOutside(elementHidden, elementVisible, icon) {
+  const outsideClickListener = event => {
+      if (!elementHidden.contains(event.target) && icon.className.includes('up') ) {
+        elementHidden.lastElementChild.style.display = 'none'
+        elementVisible.style.display = 'block';
+        icon.classList.remove('up');
+      }
+  }
+  document.addEventListener('click', outsideClickListener)
+}
