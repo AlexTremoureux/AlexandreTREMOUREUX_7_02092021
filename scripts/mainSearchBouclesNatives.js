@@ -2,93 +2,73 @@ import {recipes} from './recipes.js'
 import { search } from './constantes.js'
 import { displayDevices, displayIngredients, displayRecipes, displayUstensils, noRecipesMatch } from './displayFunctions.js';
 import { getAppliance, getIngredients, getUstensils } from './searchFunctions.js';
+import { comparaison, isInTheArray, normalize } from './utils.js';
+
+
 
 export const searchBouclesNatives = () => {
     let arrayRecipesMatch = [];
-    const inputValueToLower = search.value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-    console.log(inputValueToLower.length)
-    const comparaison = (mot) => {
-        for (let i = 0; i < inputValueToLower.length; i++) {
-            const element = inputValueToLower[i];
-            if (element !== mot[i])
-            return false
-        }
-        return true
-    }
-    // Recherche par titre de recette
-    for (let index = 0; index < recipes.length; index++) {
-        const recipe = recipes[index];
-        let arrayWordsTitleRecipe = recipe.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-        arrayWordsTitleRecipe = [...arrayWordsTitleRecipe.split(" ")]
-        //console.log(arrayWordsTitleRecipe)
-        for (let i = 0; i < arrayWordsTitleRecipe.length; i++) {
-            const element = arrayWordsTitleRecipe[i];
-            let isTrue = comparaison(element)
-            isTrue ? arrayRecipesMatch.push(recipe) : false;
-        } 
-    }
-    // Recherche par ingrédients
-    for (let index = 0; index < recipes.length; index++) {
-        const recipe = recipes[index];
-        let ingredientsOfRecipe = recipe.ingredients;
-        let arrayOfIngredientsRecipe = []
-        for (let index = 0; index < ingredientsOfRecipe.length; index++) {
-            const listOfIngredient = ingredientsOfRecipe[index];
-            arrayOfIngredientsRecipe = listOfIngredient.ingredient.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
-            arrayOfIngredientsRecipe = [arrayOfIngredientsRecipe]
-            for (let i = 0; i < arrayOfIngredientsRecipe.length; i++) {
-                const element = arrayOfIngredientsRecipe[i];
-                
-                let isTrue = comparaison(element)
-                isTrue ? arrayRecipesMatch.push(recipe) : false;
-            } 
-        }
-    }
-    // Recherche par description
-    for (let index = 0; index < recipes.length; index++) {
-        const recipe = recipes[index];
-        let arrayWordsDescriptionRecipe = recipe.description.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-        arrayWordsDescriptionRecipe = [...arrayWordsDescriptionRecipe.split(" ")]
-        for (let i = 0; i < arrayWordsDescriptionRecipe.length; i++) {
-            const element = arrayWordsDescriptionRecipe[i];
-            
-            let isTrue = comparaison(element)
-            isTrue ? arrayRecipesMatch.push(recipe) : false;
-        } 
-    }
-    // Suppression des doublons dans les recettes correspondant à l'input
-    const noRepeat = (array) => {
-        let arrayOfIndex = []
-        let result = [];
-        for (let i = 0; i < array.length; i++) {
-        let doublon = false;
-        const currentElement = array[i];
-        for (let j = 0; j < array.length; j++) {
-            const comp = array[j];
-            if (currentElement === comp && i !== j && !arrayOfIndex.includes(j)) {
-            arrayOfIndex = [...arrayOfIndex, i];
-            doublon = true;
-            }
-        }
-        result = doublon ? result : [...result, currentElement];
-        }
-        return result
-    }
-
-    arrayRecipesMatch = noRepeat(arrayRecipesMatch)
+    const inputValueToLower = normalize(search.value);
 
     // Affichage des recettes correspondantes aux saisies de l'input
     // Si moins de 3 caractères saisis, affichage des recettes, et des items des différents select non filtrés
     if(inputValueToLower.length < 3) {
-        return displayRecipes(recipes)
+        return displayRecipes(recipes);
+    };
+
+    // Itération sur la liste de toutes les recettes existantes
+    for (let i = 0; i < recipes.length; i++) {
+        const recipe = recipes[i];
+        let arrayWordsTitleRecipe = [normalize(recipe.name)];
+        let arrayWordsDescriptionRecipe = normalize(recipe.description).split(" ");
+        let ingredientsOfRecipe = recipe.ingredients;
+        
+        // Si le titre de la recette courante correspond à l'input, ajout de la recette au tableau
+        for (let j = 0; j < arrayWordsTitleRecipe.length; j++) {
+            let isTrue = comparaison(arrayWordsTitleRecipe[j], inputValueToLower);
+            if (isTrue) {
+                arrayRecipesMatch = [...arrayRecipesMatch, recipe];
+            };
+        };
+        // Si l'id de la recette courante est présente dans le tableau on passe à la recette suivante
+        if (isInTheArray(recipe.id, arrayRecipesMatch)) {
+            continue;
+        };
+
+        // Si un mot de la description de la recette courante correspond à l'input, ajout de la recette au tableau
+        for (let k = 0; k < arrayWordsDescriptionRecipe.length; k++) {
+            let isTrue = comparaison(arrayWordsDescriptionRecipe[k], inputValueToLower)
+            if (isTrue) {
+                arrayRecipesMatch = [...arrayRecipesMatch, recipe];
+                break;
+            };
+        };
+        // Si l'id de la recette courante est présente dans le tableau on passe à la recette suivante
+        if (isInTheArray(recipe.id, arrayRecipesMatch)) {
+            continue;
+        };
+
+        // Si un des ingrédients de la recette courante correspond à l'input, ajout de la recette au tableau
+        for (let m = 0; m < ingredientsOfRecipe.length; m++) {
+            const listOfIngredient = ingredientsOfRecipe[m];
+            let arrayOfIngredientsRecipe = [normalize(listOfIngredient.ingredient)];
+            for (let n = 0; n < arrayOfIngredientsRecipe.length; n++) {
+                let isTrue = comparaison(arrayOfIngredientsRecipe[n], inputValueToLower);
+                if (isTrue) {
+                    arrayRecipesMatch = [...arrayRecipesMatch, recipe];
+                };
+            } 
+        }
     }
+
+    // Si l'array des résultats matchant avec l'input à une longueur de 0, message d'erreur
     if (!arrayRecipesMatch.length) {
-        // Si l'array des résultats matchant avec l'input à une longueur de 0, message d'erreur
-        return noRecipesMatch()
-    }
+        return noRecipesMatch();
+    };
+
      // Sinon, affichage des recettes et des items des différents select filtrés selon les données saisies
-     displayIngredients(getIngredients(arrayRecipesMatch))
-     displayDevices(getAppliance(arrayRecipesMatch))
-     displayUstensils(getUstensils(arrayRecipesMatch))
-     return displayRecipes(arrayRecipesMatch)
-}
+     displayIngredients(getIngredients(arrayRecipesMatch));
+     displayDevices(getAppliance(arrayRecipesMatch));
+     displayUstensils(getUstensils(arrayRecipesMatch));
+     return displayRecipes(arrayRecipesMatch);
+};
