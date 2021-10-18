@@ -4,8 +4,6 @@ import { displayDevices, displayIngredients, displayRecipes, displayUstensils, n
 import { getAppliance, getIngredients, getUstensils } from './searchFunctions.js';
 import { comparaison, isInTheArray, normalize } from './utils.js';
 
-
-
 export const searchBouclesNatives = () => {
     let arrayRecipesMatch = [];
     const inputValueToLower = normalize(search.value);
@@ -13,6 +11,9 @@ export const searchBouclesNatives = () => {
     // Affichage des recettes correspondantes aux saisies de l'input
     // Si moins de 3 caractères saisis, affichage des recettes, et des items des différents select non filtrés
     if(inputValueToLower.length < 3) {
+        displayIngredients(getIngredients(recipes));
+        displayDevices(getAppliance(recipes));
+        displayUstensils(getUstensils(recipes));
         return displayRecipes(recipes);
     };
 

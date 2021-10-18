@@ -35,7 +35,6 @@ export const displayIngredients = (array) => {
           search.value = '';
           inputTagIngredients.value = '';
           tags.addTag(newTag)
-          
       })
   })
 }

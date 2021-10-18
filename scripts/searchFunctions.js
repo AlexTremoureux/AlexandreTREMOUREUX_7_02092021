@@ -10,7 +10,7 @@ import { recipes } from "./recipes.js";
           allIngredients.push(liste.ingredient);
       });
     });
-    allIngredients = Array.from(new Set (allIngredients))
+    allIngredients = Array.from(new Set (allIngredients)).sort()
     return allIngredients.map((element) => ({
       type: 'ingredient',
       name: element,
@@ -23,7 +23,7 @@ import { recipes } from "./recipes.js";
     array.forEach((recipe) => {
       allAppliances.push(recipe.appliance.toLowerCase())
     });
-    allAppliances = Array.from(new Set (allAppliances))
+    allAppliances = Array.from(new Set (allAppliances)).sort()
     return allAppliances.map((element) => ({
       type: "appareil",
       name: element,
@@ -38,7 +38,7 @@ import { recipes } from "./recipes.js";
       allUstensils.push(ustensil.toLowerCase())
       });
     });
-    allUstensils = Array.from(new Set (allUstensils))
+    allUstensils = Array.from(new Set (allUstensils)).sort()
     return allUstensils.map((element) => ({
       type: "ustensile",
       name: element,
