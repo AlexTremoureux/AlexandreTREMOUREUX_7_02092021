@@ -1,10 +1,10 @@
 import { allDevices, allIngredients, allUstensils, filterDevicesSelect, filterIngredientSelect, filterUstensilsSelect, inputTagDevices, inputTagIngredients, inputTagUstensils, wrapperDevicesInputFilter, wrapperIngredientInputFilter, wrapperUstensilsInputFilter } from "./constantes.js";
-import { close, displayDevices, displayIngredients, displayUstensils, hideOnClickOutside, open } from "./displayFunctions.js";
+import { close,  hideOnClickOutside, open } from "./displayFunctions.js";
 import { searchDevicesFunctionTag, searchIngredientsFunctionTag, searchUstensilsFunctionTag } from "./searchFunctions.js";
 
 
 // Initialisation du select type ingrédients
-export const selectIngredient = () => {
+export const selectIngredient = (arrayIngred, arrayRecipes) => {
   const labelInput = filterIngredientSelect.querySelector('.labelInput_ingredients');
   const closeIngredients = document.getElementById('closeIngredients');
   const iconDropDown = filterIngredientSelect.querySelector('.iconDropDown');
@@ -31,14 +31,12 @@ export const selectIngredient = () => {
   document.addEventListener('keydown', onKeyUp);
   // Fonction de recherche sur l'input du select ingredients
   inputTagIngredients.addEventListener('keyup', () => {
-    searchIngredientsFunctionTag();
+    searchIngredientsFunctionTag(arrayIngred, arrayRecipes);
   });
-  // Affichage de tous les ingrédients
-  displayIngredients(allIngredients);
 };
 
 // Initialisation du select type appareils
-export const selectDevices = () => {
+export const selectDevices = (arrayIngred, arrayRecipes) => {
   const iconDropDown = filterDevicesSelect.querySelector('.iconDropDown');
   const closeDevices = document.getElementById('closeDevices');
   const labelInput = filterDevicesSelect.querySelector('.labelInput_devices');
@@ -65,14 +63,12 @@ export const selectDevices = () => {
   document.addEventListener('keydown', onKeyUp);
   // Fonction de recherche sur l'input du select appareil
   inputTagDevices.addEventListener('keyup', () => {
-    searchDevicesFunctionTag();
+    searchDevicesFunctionTag(arrayIngred, arrayRecipes);
   });
-  // Affichage de tous les appareils
-    displayDevices(allDevices);
 };
 
 // Initialisation du select type ustensiles
-export const selectUstensils = () => {
+export const selectUstensils = (arrayIngred, arrayRecipes) => {
   const iconDropDown = filterUstensilsSelect.querySelector('.iconDropDown');
   const closeUstensils = document.getElementById('closeUstensils');
   const labelInput = filterUstensilsSelect.querySelector('.labelInput_ustensils');
@@ -99,10 +95,8 @@ export const selectUstensils = () => {
   document.addEventListener('keydown', onKeyUp);
   // Fonction de recherche sur l'input du select appareil
   inputTagUstensils.addEventListener('keyup', () => {
-    searchUstensilsFunctionTag();
+    searchUstensilsFunctionTag(arrayIngred, arrayRecipes);
   });
-  // Affichage de tous les appareils
-    displayUstensils(allUstensils);
 };
 
 

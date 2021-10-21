@@ -1,6 +1,6 @@
 import {recipes} from './recipes.js'
-import { search } from './constantes.js'
-import { displayDevices, displayIngredients, displayRecipes, displayUstensils, noRecipesMatch } from './displayFunctions.js';
+import { inputTagDevices, inputTagIngredients, inputTagUstensils, listItemsDevices, listItemsIngredients, listItemsUstensils, search } from './constantes.js'
+import { displayKeyWords, noRecipesMatch } from './displayFunctions.js';
 import { getAppliance, getIngredients, getUstensils } from './searchFunctions.js';
 import { comparaison, isInTheArray, normalize } from './utils.js';
 
@@ -11,10 +11,12 @@ export const searchBouclesNatives = () => {
     // Affichage des recettes correspondantes aux saisies de l'input
     // Si moins de 3 caractères saisis, affichage des recettes, et des items des différents select non filtrés
     if(inputValueToLower.length < 3) {
-        displayIngredients(getIngredients(recipes));
-        displayDevices(getAppliance(recipes));
-        displayUstensils(getUstensils(recipes));
-        return displayRecipes(recipes);
+        arrayRecipesMatch = recipes
+        displayKeyWords(getIngredients(arrayRecipesMatch), inputTagIngredients, listItemsIngredients, arrayRecipesMatch)
+        displayKeyWords(getAppliance(arrayRecipesMatch), inputTagDevices, listItemsDevices, arrayRecipesMatch)
+        displayKeyWords(getUstensils(arrayRecipesMatch), inputTagUstensils, listItemsUstensils, arrayRecipesMatch)
+
+        return displayRecipes(arrayRecipesMatch);
     };
 
     // Itération sur la liste de toutes les recettes existantes
@@ -68,8 +70,8 @@ export const searchBouclesNatives = () => {
     };
 
      // Sinon, affichage des recettes et des items des différents select filtrés selon les données saisies
-     displayIngredients(getIngredients(arrayRecipesMatch));
-     displayDevices(getAppliance(arrayRecipesMatch));
-     displayUstensils(getUstensils(arrayRecipesMatch));
+     displayKeyWords(getIngredients(arrayRecipesMatch), inputTagIngredients, listItemsIngredients, arrayRecipesMatch)
+    displayKeyWords(getAppliance(arrayRecipesMatch), inputTagDevices, listItemsDevices, arrayRecipesMatch)
+    displayKeyWords(getUstensils(arrayRecipesMatch), inputTagUstensils, listItemsUstensils, arrayRecipesMatch)
      return displayRecipes(arrayRecipesMatch);
 };

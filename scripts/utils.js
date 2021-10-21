@@ -1,5 +1,5 @@
-export const normalize = (value) => {
-    return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+export const normalize = (string) => {
+    return string.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 };
 export const isInTheArray = (currentId, array) => {
     for (let i = 0; i < array.length; i++) {

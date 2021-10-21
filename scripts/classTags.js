@@ -1,4 +1,3 @@
-import {recipes} from './recipes.js'
 import { displayRecipes, noRecipesMatch } from './displayFunctions.js';
 import { getAppliance, getIngredients, getUstensils } from './searchFunctions.js';
 import { allDevices, allIngredients, listItemsDevices, listItemsIngredients, listItemsUstensils } from './constantes.js';
@@ -26,7 +25,8 @@ recipesFilterByTags = [];
     }
     // Affichage des recettes triées par tags
     filterRecipesByTags = () => {
-        this.recipesFilterByTags = recipes;
+        //this.recipesFilterByTags = recipes;
+        console.log(this.recipesFilterByTags)
         const result = this.recipesFilterByTags.filter(recipe => {
             const ingredientList = recipe.ingredients.map(item => item.ingredient);
             const deviceList = [recipe.appliance.toLowerCase()];
@@ -38,15 +38,16 @@ recipesFilterByTags = [];
             return resultFilter
         });
         this.recipesFilterByTags = result;
-        this.displayIngredients(this.recipesFilterByTags)
-        this.displayDevice(this.recipesFilterByTags)
-        this.displayUstensils(this.recipesFilterByTags)
+        this.displayIngredients(this.recipesFilterByTags, this.recipesFilterByTags)
+        this.displayDevice(this.recipesFilterByTags, this.recipesFilterByTags)
+        this.displayUstensils(this.recipesFilterByTags, this.recipesFilterByTags)
         return !this.recipesFilterByTags.length ? noRecipesMatch() : displayRecipes(this.recipesFilterByTags);
     }
     
-    addTag = (newTag) => {
+    addTag = (newTag, arrayRecipe) => {
         this.tagList.push(newTag);
         this.tagList = Array.from(new Set (this.tagList))
+        this.recipesFilterByTags = arrayRecipe
         this.typeOfTag(newTag)
         this.displayTags();
         this.filterRecipesByTags();
@@ -67,7 +68,7 @@ recipesFilterByTags = [];
         return isIngred ? color = "blue" : isDevices ? color = "green" : color = "red";
     }
     // Affichage des ingédients dans le select
-    displayIngredients = (array) => {
+    displayIngredients = (array, arrayRecipe) => {
         listItemsIngredients.innerHTML=``;
         const ingredientsByTag = getIngredients(array);
         ingredientsByTag.forEach(ingredient => {
@@ -78,12 +79,12 @@ recipesFilterByTags = [];
         keyword.forEach((keywordItem) => {
             keywordItem.addEventListener('click', () => {
                 let newTag = keywordItem.innerHTML;
-                this.addTag(newTag)
+                this.addTag(newTag,arrayRecipe)
             })
         })
     }
     // Affichage des ingrédients dans le select
-    displayDevice = (array) => {
+    displayDevice = (array, arrayRecipe) => {
         listItemsDevices.innerHTML=``;
         const deviceByTag = getAppliance(array);
         deviceByTag.forEach(device => {
@@ -94,12 +95,12 @@ recipesFilterByTags = [];
         keyword.forEach((keywordItem) => {
             keywordItem.addEventListener('click', () => {
                 let newTag = keywordItem.innerHTML;
-                this.addTag(newTag)
+                this.addTag(newTag, arrayRecipe)
             })
         })
     }
     // Affichage des ustensiles dans le select
-    displayUstensils = (array) => {
+    displayUstensils = (array, arrayRecipe) => {
         listItemsUstensils.innerHTML=``;
         const ustensilByTag = getUstensils(array);
         ustensilByTag.forEach(ustensil => {
@@ -110,7 +111,7 @@ recipesFilterByTags = [];
         keyword.forEach((keywordItem) => {
             keywordItem.addEventListener('click', () => {
                 let newTag = keywordItem.innerHTML;
-                this.addTag(newTag)
+                this.addTag(newTag, arrayRecipe)
             })
         })
     }

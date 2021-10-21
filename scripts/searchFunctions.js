@@ -1,15 +1,11 @@
-import { allDevices, allIngredients, allUstensils, inputTagDevices, inputTagIngredients, inputTagUstensils } from "./constantes.js";
-import { displayDevices, displayIngredients, displayRecipes, displayRecipesMatchByInputSelectDevices, displayRecipesMatchByInputSelectIngredient, displayRecipesMatchByInputSelectUstensils, displayUstensils, noRecipesMatch } from "./displayFunctions.js";
-import { recipes } from "./recipes.js";
+import { allDevices, allIngredients, allUstensils, inputTagDevices, inputTagIngredients, inputTagUstensils, listItemsDevices, listItemsIngredients, listItemsUstensils } from "./constantes.js";
+import {  displayKeyWords } from "./displayFunctions.js";
+import { normalize } from "./utils.js";
 
 // Recherche des ingrédients
   export const getIngredients = (array) => {
-    let allIngredients = [];
-    array.forEach((recipe) => {
-      recipe.ingredients.forEach((liste) => {
-          allIngredients.push(liste.ingredient);
-      });
-    });
+    // Méthode flat() pour concaténer les éléments des tableaux imbriqués
+    let allIngredients = array.map((recipe) => recipe.ingredients.map((liste) => liste.ingredient)).flat();
     allIngredients = Array.from(new Set (allIngredients)).sort()
     return allIngredients.map((element) => ({
       type: 'ingredient',
@@ -19,10 +15,7 @@ import { recipes } from "./recipes.js";
   
   // Recherche des Appareils
   export const getAppliance = (array) => {
-    let allAppliances = [];
-    array.forEach((recipe) => {
-      allAppliances.push(recipe.appliance.toLowerCase())
-    });
+    let allAppliances = array.map((recipe) => recipe.appliance.toLowerCase());
     allAppliances = Array.from(new Set (allAppliances)).sort()
     return allAppliances.map((element) => ({
       type: "appareil",
@@ -32,83 +25,52 @@ import { recipes } from "./recipes.js";
   
   // Recherche des Ustensiles
   export const getUstensils = (array) => {
-    let allUstensils = [];
-    array.forEach((recipe) => {
-      recipe.ustensils.forEach((ustensil) => {
-      allUstensils.push(ustensil.toLowerCase())
-      });
-    });
+    let allUstensils = array.map((recipe) => recipe.ustensils.map((liste) => liste.toLowerCase())).flat();
     allUstensils = Array.from(new Set (allUstensils)).sort()
     return allUstensils.map((element) => ({
       type: "ustensile",
       name: element,
     }));
   }
+ 
 
   // Fonction de recherche sur l'input du select ingrédients
-  export const searchIngredientsFunctionTag = () => {
-    // Utilisation de NFD qui décompose les caractères spéciaux. Le "è" de "Crème" finit par s'exprimer par "e" + "`", ensuite on remplace les caractères spéciaux par "".
-    const inputValueToLower = inputTagIngredients.value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  export const searchIngredientsFunctionTag = (arrayIngred, arrayRecipes) => {
+    const inputValueToLower = normalize(inputTagIngredients.value)
     // Tous les ingrédients qui correspondent à l'input sont mis dans un array
-    let ingredientsFilter = allIngredients.filter(list => list.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(inputValueToLower));
+    let ingredientsFilter = arrayIngred.filter(list => normalize(list.name).includes(inputValueToLower));
     ingredientsFilter = Array.from(new Set (ingredientsFilter))
-    const ingredientsListFilter = ingredientsFilter.map(list => list.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase());
-    // Affichage des recettes correspondants à chaques ingrédients mis dans le tableau précédents.
-    displayRecipesMatchByInputSelectIngredient(ingredientsListFilter);
-    // Si moins de 3 caractères saisis, affichage des recettes non filtrées
-    // Si l'array des résultats matchant avec l'input à une longueur de 0, message d'erreur
-    // Sinon, affichage des recettes filtrées selon les données saisies
+    // Si moins de 3 caractères saisis, affichage des ingrédients non filtrés
+    // Sinon, affichage des ingrédients filtrés selon les données saisies
     if(inputValueToLower.length < 3) {
-      displayIngredients(allIngredients)
-      return displayRecipes(recipes)
-    } if (!ingredientsFilter.length) {
-      return noRecipesMatch()
+      return displayKeyWords(arrayIngred, inputTagIngredients, listItemsIngredients, arrayRecipes)
     }
-    return displayIngredients(ingredientsFilter)
+    return displayKeyWords(ingredientsFilter, inputTagIngredients, listItemsIngredients, arrayRecipes)
   }
 
   // Fonction de recherche sur l'input du select appareils
-  export const searchDevicesFunctionTag = () => {
-    // Utilisation de NFD qui décompose les caractères spéciaux. Le "è" de "Crème" finit par s'exprimer par "e" + "`", ensuite on remplace les caractères spéciaux par "".
-    const inputValueToLower = inputTagDevices.value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  export const searchDevicesFunctionTag = (arrayIngred, arrayRecipes) => {
+    const inputValueToLower = normalize(inputTagDevices.value)
     // Tous les ingrédients qui correspondent à l'input sont mis dans un array
-    let devicesFilter = allDevices.filter(list => list.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(inputValueToLower));
-    let devicesListFilter = devicesFilter.map(list => list.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase());
-    devicesListFilter = Array.from(new Set (devicesListFilter))
-    // Affichage des recettes correspondants à chaques ingrédients mis dans le tableau précédents.
-    displayRecipesMatchByInputSelectDevices(devicesListFilter);
-    // Si moins de 3 caractères saisis, affichage des recettes non filtrées
-    // Si l'array des résultats matchant avec l'input à une longueur de 0, message d'erreur
-    // Sinon, affichage des recettes filtrées selon les données saisies
+    let devicesFilter = allDevices.filter(list => normalize(list.name).includes(inputValueToLower));
+    // Si moins de 3 caractères saisis, affichage des appareils non filtrées
+    // Sinon, affichage des appareils filtrées selon les données saisies
     if(inputValueToLower.length < 3) {
-      displayDevices(allDevices)
-      return displayRecipes(recipes)
-    } if (!devicesFilter.length) {
-      return noRecipesMatch()
+      return displayKeyWords(arrayIngred, inputTagDevices, listItemsDevices, arrayRecipes)
     }
-    return displayDevices(devicesFilter)
-
+    return displayKeyWords(devicesFilter, inputTagDevices, listItemsDevices, arrayRecipes)
   }
 
   // Fonction de recherche sur l'input du select ustensiles
-  export const searchUstensilsFunctionTag = () => {
-    // Utilisation de NFD qui décompose les caractères spéciaux. Le "è" de "Crème" finit par s'exprimer par "e" + "`", ensuite on remplace les caractères spéciaux par "".
-    const inputValueToLower = inputTagUstensils.value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  export const searchUstensilsFunctionTag = (arrayIngred,arrayRecipes) => {
+    const inputValueToLower = normalize(inputTagUstensils.value);
     // Tous les ustensiles qui correspondent à l'input sont mis dans un array
-    let ustensilsFilter = allUstensils.filter(list => list.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(inputValueToLower));
-    let ustensilsListFilter = ustensilsFilter.map(list => list.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase());
-    ustensilsListFilter = Array.from(new Set (ustensilsListFilter))
-    // Affichage des recettes correspondants à chaques ustensiles mis dans le tableau précédents.
-    displayRecipesMatchByInputSelectUstensils(ustensilsListFilter);
-    // Si moins de 3 caractères saisis, affichage des recettes non filtrées
-    // Si l'array des résultats matchant avec l'input à une longueur de 0, message d'erreur
+    let ustensilsFilter = allUstensils.filter(list => normalize(list.name).includes(inputValueToLower));
+    // Si moins de 3 caractères saisis, affichage des ustensiles non filtrées
     // Sinon, affichage des recettes filtrées selon les données saisies
     if(inputValueToLower.length < 3) {
-      displayUstensils(allUstensils)
-      return displayRecipes(recipes)
-    } if (!ustensilsFilter.length) {
-      return noRecipesMatch()
+      return displayKeyWords(arrayIngred, inputTagUstensils, listItemsUstensils, arrayRecipes)
     }
-    return displayUstensils(ustensilsFilter)
+    return displayKeyWords(ustensilsFilter, inputTagUstensils, listItemsUstensils, arrayRecipes)
 
   }
