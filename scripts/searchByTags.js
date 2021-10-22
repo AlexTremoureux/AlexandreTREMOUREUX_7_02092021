@@ -1,6 +1,7 @@
 import { filterDevicesSelect, filterIngredientSelect, filterUstensilsSelect, inputTagDevices, inputTagIngredients, inputTagUstensils, listItemsDevices, listItemsIngredients, listItemsUstensils, wrapperDevicesInputFilter, wrapperIngredientInputFilter, wrapperUstensilsInputFilter } from "./constantes.js";
 import { close,  displayKeyWords,  hideOnClickOutside, open } from "./displayFunctions.js";
 import { searchDevicesFunctionTag, searchIngredientsFunctionTag, searchUstensilsFunctionTag } from "./searchFunctions.js";
+import { normalize } from "./utils.js";
 
 
 // Initialisation du select type ingrédients
@@ -29,9 +30,17 @@ export const selectIngredient = (arrayIngred, arrayRecipes) => {
     }
   }
   document.addEventListener('keydown', onKeyUp);
+
   // Fonction de recherche sur l'input du select ingredients
   inputTagIngredients.addEventListener('keyup', () => {
-    searchIngredientsFunctionTag(arrayIngred, arrayRecipes);
+    const inputValueToLower = normalize(inputTagIngredients.value);
+    const arrayIngredFilter = searchIngredientsFunctionTag(inputValueToLower, arrayIngred);
+    // Si moins de 3 caractères saisis, affichage des ingrédients non filtrés
+    // Sinon, affichage des ingrédients filtrés selon les données saisies
+    if(inputValueToLower.length < 3) {
+      return displayKeyWords(arrayIngred, inputTagIngredients, listItemsIngredients, arrayRecipes)
+    }
+    return displayKeyWords(arrayIngredFilter, inputTagIngredients, listItemsIngredients, arrayRecipes)
   });
   displayKeyWords(arrayIngred, inputTagIngredients, listItemsIngredients, arrayRecipes);
 };
@@ -62,9 +71,17 @@ export const selectDevices = (arrayIngred, arrayRecipes) => {
     }
   }
   document.addEventListener('keydown', onKeyUp);
+
   // Fonction de recherche sur l'input du select appareil
   inputTagDevices.addEventListener('keyup', () => {
-    searchDevicesFunctionTag(arrayIngred, arrayRecipes);
+    const inputValueToLower = normalize(inputTagDevices.value)
+    const arrayDeviceFilter = searchDevicesFunctionTag(inputValueToLower, arrayIngred);
+    // Si moins de 3 caractères saisis, affichage des appareils non filtrées
+    // Sinon, affichage des appareils filtrées selon les données saisies
+    if(inputValueToLower.length < 3) {
+      return displayKeyWords(arrayIngred, inputTagDevices, listItemsDevices, arrayRecipes)
+    }
+    return displayKeyWords(arrayDeviceFilter, inputTagDevices, listItemsDevices, arrayRecipes)
   });
   displayKeyWords(arrayIngred, inputTagDevices, listItemsDevices, arrayRecipes)
 };
@@ -97,7 +114,14 @@ export const selectUstensils = (arrayIngred, arrayRecipes) => {
   document.addEventListener('keydown', onKeyUp);
   // Fonction de recherche sur l'input du select appareil
   inputTagUstensils.addEventListener('keyup', () => {
-    searchUstensilsFunctionTag(arrayIngred, arrayRecipes);
+    const inputValueToLower = normalize(inputTagUstensils.value);
+    const arrayUstensFilter = searchUstensilsFunctionTag(inputValueToLower, arrayIngred);
+    // Si moins de 3 caractères saisis, affichage des ustensiles non filtrées
+    // Sinon, affichage des recettes filtrées selon les données saisies
+    if(inputValueToLower.length < 3) {
+      return displayKeyWords(arrayIngred, inputTagUstensils, listItemsUstensils, arrayRecipes)
+    }
+    return displayKeyWords(arrayUstensFilter, inputTagUstensils, listItemsUstensils, arrayRecipes)
   });
   displayKeyWords(arrayIngred, inputTagUstensils, listItemsUstensils, arrayRecipes)
 };

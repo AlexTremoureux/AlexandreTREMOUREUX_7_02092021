@@ -22,7 +22,8 @@ const filters = (() => {
         return displayRecipes(copieArrayRecipes);
       };
       // On applique le premier filtre correspondant à la valeur de l'input mainSearch
-      copieArrayRecipes = searchFunctionBuiltIn(copieArrayRecipes, inputValueToLower);
+      //copieArrayRecipes = searchFunctionBuiltIn(copieArrayRecipes, inputValueToLower);
+      copieArrayRecipes = searchBouclesNatives(inputValueToLower, copieArrayRecipes)
       if (!copieArrayRecipes.length) {
         return noRecipesMatch();
       };
