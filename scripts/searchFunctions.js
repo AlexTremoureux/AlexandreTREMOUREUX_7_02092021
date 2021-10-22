@@ -36,7 +36,7 @@ import { normalize } from "./utils.js";
 
   // Fonction de recherche sur l'input du select ingrédients
   export const searchIngredientsFunctionTag = (arrayIngred, arrayRecipes) => {
-    const inputValueToLower = normalize(inputTagIngredients.value)
+    const inputValueToLower = normalize(inputTagIngredients.value);
     // Tous les ingrédients qui correspondent à l'input sont mis dans un array
     let ingredientsFilter = arrayIngred.filter(list => normalize(list.name).includes(inputValueToLower));
     ingredientsFilter = Array.from(new Set (ingredientsFilter))
@@ -52,7 +52,7 @@ import { normalize } from "./utils.js";
   export const searchDevicesFunctionTag = (arrayIngred, arrayRecipes) => {
     const inputValueToLower = normalize(inputTagDevices.value)
     // Tous les ingrédients qui correspondent à l'input sont mis dans un array
-    let devicesFilter = allDevices.filter(list => normalize(list.name).includes(inputValueToLower));
+    let devicesFilter = arrayIngred.filter(list => normalize(list.name).includes(inputValueToLower));
     // Si moins de 3 caractères saisis, affichage des appareils non filtrées
     // Sinon, affichage des appareils filtrées selon les données saisies
     if(inputValueToLower.length < 3) {
@@ -65,7 +65,7 @@ import { normalize } from "./utils.js";
   export const searchUstensilsFunctionTag = (arrayIngred,arrayRecipes) => {
     const inputValueToLower = normalize(inputTagUstensils.value);
     // Tous les ustensiles qui correspondent à l'input sont mis dans un array
-    let ustensilsFilter = allUstensils.filter(list => normalize(list.name).includes(inputValueToLower));
+    let ustensilsFilter = arrayIngred.filter(list => normalize(list.name).includes(inputValueToLower));
     // Si moins de 3 caractères saisis, affichage des ustensiles non filtrées
     // Sinon, affichage des recettes filtrées selon les données saisies
     if(inputValueToLower.length < 3) {

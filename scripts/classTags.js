@@ -6,7 +6,7 @@ export class Tags {
 tagList = [];
 recipesFilterByTags = [];
     // Affichage du tag
-    displayTags = () => {
+    displayTags = (arrayRecipe) => {
         const wrapperTags = document.getElementById('wrapperTags');
         wrapperTags.innerHTML = ``;
         if (this.tagList.length) {
@@ -18,15 +18,15 @@ recipesFilterByTags = [];
             closeTag.forEach((btnClose) => {
                 btnClose.addEventListener('click', () => {
                     const currentTag = btnClose.previousSibling.textContent
-                    this.deleteTag(currentTag)
+                    this.deleteTag(currentTag, arrayRecipe)
                 })
             })
         }
     }
     // Affichage des recettes triées par tags
-    filterRecipesByTags = () => {
+    filterRecipesByTags = (arrayRecipe) => {
         //this.recipesFilterByTags = recipes;
-        console.log(this.recipesFilterByTags)
+        this.recipesFilterByTags = arrayRecipe
         const result = this.recipesFilterByTags.filter(recipe => {
             const ingredientList = recipe.ingredients.map(item => item.ingredient);
             const deviceList = [recipe.appliance.toLowerCase()];
@@ -38,25 +38,24 @@ recipesFilterByTags = [];
             return resultFilter
         });
         this.recipesFilterByTags = result;
-        this.displayIngredients(this.recipesFilterByTags, this.recipesFilterByTags)
-        this.displayDevice(this.recipesFilterByTags, this.recipesFilterByTags)
-        this.displayUstensils(this.recipesFilterByTags, this.recipesFilterByTags)
+        this.displayIngredients(this.recipesFilterByTags, arrayRecipe)
+        this.displayDevice(this.recipesFilterByTags, arrayRecipe)
+        this.displayUstensils(this.recipesFilterByTags, arrayRecipe)
         return !this.recipesFilterByTags.length ? noRecipesMatch() : displayRecipes(this.recipesFilterByTags);
     }
     
     addTag = (newTag, arrayRecipe) => {
         this.tagList.push(newTag);
         this.tagList = Array.from(new Set (this.tagList))
-        this.recipesFilterByTags = arrayRecipe
         this.typeOfTag(newTag)
-        this.displayTags();
-        this.filterRecipesByTags();
+        this.displayTags(arrayRecipe);
+        this.filterRecipesByTags(arrayRecipe);
     }
     // Suppression du tag au click sur l'icone de fermeture
-    deleteTag = (tag) => {
+    deleteTag = (tag, arrayRecipe) => {
         this.tagList = this.tagList.filter(item => item !== tag);
-        this.displayTags();
-        this.filterRecipesByTags();
+        this.displayTags(arrayRecipe);
+        this.filterRecipesByTags(arrayRecipe);
     }
     // On détermine le type de tag afin de lui attribuer la bonne couleur
     typeOfTag = (tag) => {

@@ -1,6 +1,8 @@
 import { Recipe } from "./classRecipe.js";
 import { Tags } from "./classTags.js";
 import { wrapper } from "./constantes.js";
+import { selectDevices, selectIngredient, selectUstensils } from "./searchByTags.js";
+import { getAppliance, getIngredients, getUstensils } from "./searchFunctions.js";
 
 // Si aucun résultat ne match, affichage d'un message avec suggestion de recherche
 export const noRecipesMatch = () => {
@@ -33,7 +35,12 @@ export const displayKeyWords = (arrayIngred, input, dest, arrayRecipe) => {
       })
   })
 }
-
+// Initialisation des dropdowns et affaichage des keywords en fonction de l'array défini
+export const initSelect = (array) => {
+  selectIngredient(getIngredients(array), array)
+  selectDevices(getAppliance(array), array)
+  selectUstensils(getUstensils(array), array)
+}
 // Ouverture du dropdown
 export const open = (visible, hidden, icon) => {
   hidden.style.display = 'none';

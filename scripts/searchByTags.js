@@ -1,5 +1,5 @@
-import { allDevices, allIngredients, allUstensils, filterDevicesSelect, filterIngredientSelect, filterUstensilsSelect, inputTagDevices, inputTagIngredients, inputTagUstensils, wrapperDevicesInputFilter, wrapperIngredientInputFilter, wrapperUstensilsInputFilter } from "./constantes.js";
-import { close,  hideOnClickOutside, open } from "./displayFunctions.js";
+import { filterDevicesSelect, filterIngredientSelect, filterUstensilsSelect, inputTagDevices, inputTagIngredients, inputTagUstensils, listItemsDevices, listItemsIngredients, listItemsUstensils, wrapperDevicesInputFilter, wrapperIngredientInputFilter, wrapperUstensilsInputFilter } from "./constantes.js";
+import { close,  displayKeyWords,  hideOnClickOutside, open } from "./displayFunctions.js";
 import { searchDevicesFunctionTag, searchIngredientsFunctionTag, searchUstensilsFunctionTag } from "./searchFunctions.js";
 
 
@@ -33,6 +33,7 @@ export const selectIngredient = (arrayIngred, arrayRecipes) => {
   inputTagIngredients.addEventListener('keyup', () => {
     searchIngredientsFunctionTag(arrayIngred, arrayRecipes);
   });
+  displayKeyWords(arrayIngred, inputTagIngredients, listItemsIngredients, arrayRecipes);
 };
 
 // Initialisation du select type appareils
@@ -65,6 +66,7 @@ export const selectDevices = (arrayIngred, arrayRecipes) => {
   inputTagDevices.addEventListener('keyup', () => {
     searchDevicesFunctionTag(arrayIngred, arrayRecipes);
   });
+  displayKeyWords(arrayIngred, inputTagDevices, listItemsDevices, arrayRecipes)
 };
 
 // Initialisation du select type ustensiles
@@ -97,6 +99,7 @@ export const selectUstensils = (arrayIngred, arrayRecipes) => {
   inputTagUstensils.addEventListener('keyup', () => {
     searchUstensilsFunctionTag(arrayIngred, arrayRecipes);
   });
+  displayKeyWords(arrayIngred, inputTagUstensils, listItemsUstensils, arrayRecipes)
 };
 
 
