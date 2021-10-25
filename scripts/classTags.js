@@ -3,8 +3,11 @@ import { getAppliance, getIngredients, getUstensils } from './searchFunctions.js
 import { allDevices, allIngredients, listItemsDevices, listItemsIngredients, listItemsUstensils } from './constantes.js';
 
 export class Tags {
-tagList = [];
-recipesFilterByTags = [];
+    constructor() {
+
+    }
+    tagList = [];
+    recipesFilterByTags = [];
     // Affichage du tag
     displayTags = (arrayRecipe) => {
         const wrapperTags = document.getElementById('wrapperTags');
