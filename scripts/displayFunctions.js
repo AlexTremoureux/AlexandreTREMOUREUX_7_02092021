@@ -2,7 +2,15 @@
 
 import { Recipe } from './classRecipe.js'
 import { Tags } from './classTags.js'
-import { wrapper } from './constantes.js'
+import {
+  filterDevicesSelect,
+  filterIngredientSelect,
+  filterUstensilsSelect,
+  wrapper,
+  wrapperDevicesInputFilter,
+  wrapperIngredientInputFilter,
+  wrapperUstensilsInputFilter,
+} from './constantes.js'
 import {
   selectDevices,
   selectIngredient,
@@ -34,10 +42,10 @@ export const displayRecipes = (array) => {
 }
 
 // Affichage des ingrédients dans le select
-export const displayKeyWords = (arrayIngred, input, dest, arrayRecipe) => {
+export const displayKeyWords = (arrayKeyword, input, dest, arrayRecipe) => {
   const tags = new Tags()
   dest.innerHTML = ``
-  arrayIngred.forEach((ingredient) => {
+  arrayKeyword.forEach((ingredient) => {
     dest.innerHTML += `<li><div class='keyword'>${ingredient.name}</div></li>`
   })
   // Ajout d'un listener sur les nouveaux keywords et on les ajoutes en tant que tag
@@ -52,9 +60,9 @@ export const displayKeyWords = (arrayIngred, input, dest, arrayRecipe) => {
 }
 // Initialisation des dropdowns et affaichage des keywords en fonction de l'array défini
 export const initSelect = (array) => {
-  selectIngredient(getIngredients(array), array)
-  selectDevices(getAppliance(array), array)
-  selectUstensils(getUstensils(array), array)
+  selectIngredient(array)
+  selectDevices(array)
+  selectUstensils(array)
 }
 // Ouverture du dropdown
 export const open = (visible, hidden, icon) => {
@@ -81,4 +89,89 @@ export function hideOnClickOutside(elementHidden, elementVisible, icon) {
     }
   }
   document.addEventListener('click', outsideClickListener)
+}
+
+export const eventClickOnSelectIngredients = () => {
+  const labelInput = filterIngredientSelect.querySelector(
+    '.labelInput_ingredients'
+  )
+  const closeIngredients = document.getElementById('closeIngredients')
+  const iconDropDown = filterIngredientSelect.querySelector('.iconDropDown')
+  // Ouverture du select au click
+  labelInput.addEventListener('click', () => {
+    open(wrapperIngredientInputFilter, labelInput, iconDropDown)
+  })
+  // Gestion du click sur iconDropDown
+  closeIngredients.addEventListener('click', () => {
+    if (iconDropDown.className.includes('up')) {
+      close(labelInput, wrapperIngredientInputFilter, iconDropDown)
+    } else {
+      open(wrapperIngredientInputFilter, labelInput, iconDropDown)
+    }
+  })
+  // Gestion du click en dehors du dropdown
+  hideOnClickOutside(filterIngredientSelect, labelInput, iconDropDown)
+  // Gestion de la touche echap
+  const onKeyUp = (e) => {
+    if (e.key === 'Escape') {
+      close(labelInput, wrapperIngredientInputFilter, iconDropDown)
+    }
+  }
+  document.addEventListener('keydown', onKeyUp)
+}
+
+export const eventClickOnSelectDevices = () => {
+  const iconDropDown = filterDevicesSelect.querySelector('.iconDropDown')
+  const closeDevices = document.getElementById('closeDevices')
+  const labelInput = filterDevicesSelect.querySelector('.labelInput_devices')
+  // Ouverture du select au click
+  labelInput.addEventListener('click', () => {
+    open(wrapperDevicesInputFilter, labelInput, iconDropDown)
+  })
+  // Gestion du click sur iconDropDown
+  closeDevices.addEventListener('click', () => {
+    if (iconDropDown.className.includes('up')) {
+      close(labelInput, wrapperDevicesInputFilter, iconDropDown)
+    } else {
+      open(wrapperDevicesInputFilter, labelInput, iconDropDown)
+    }
+  })
+  // Gestion du click en dehors du dropdown
+  hideOnClickOutside(filterDevicesSelect, labelInput, iconDropDown)
+  // Gestion de la touche echap
+  const onKeyUp = (e) => {
+    if (e.key === 'Escape') {
+      close(labelInput, wrapperDevicesInputFilter, iconDropDown)
+    }
+  }
+  document.addEventListener('keydown', onKeyUp)
+}
+
+export const eventClickOnSelectUstensils = () => {
+  const iconDropDown = filterUstensilsSelect.querySelector('.iconDropDown')
+  const closeUstensils = document.getElementById('closeUstensils')
+  const labelInput = filterUstensilsSelect.querySelector(
+    '.labelInput_ustensils'
+  )
+  // Ouverture du select au click
+  labelInput.addEventListener('click', () => {
+    open(wrapperUstensilsInputFilter, labelInput, iconDropDown)
+  })
+  // Gestion du click sur iconDropDown
+  closeUstensils.addEventListener('click', () => {
+    if (iconDropDown.className.includes('up')) {
+      close(labelInput, wrapperUstensilsInputFilter, iconDropDown)
+    } else {
+      open(wrapperUstensilsInputFilter, labelInput, iconDropDown)
+    }
+  })
+  // Gestion du click en dehors du dropdown
+  hideOnClickOutside(filterUstensilsSelect, labelInput, iconDropDown)
+  // Gestion de la touche echap
+  const onKeyUp = (e) => {
+    if (e.key === 'Escape') {
+      close(labelInput, wrapperUstensilsInputFilter, iconDropDown)
+    }
+  }
+  document.addEventListener('keydown', onKeyUp)
 }

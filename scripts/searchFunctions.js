@@ -30,9 +30,10 @@ export const getUstensils = (array) => {
 }
 
 // Fonction de recherche sur l'input du select ingrédients
-export const searchIngredientsFunctionTag = (input, arrayIngred) => {
+export const searchIngredientsFunctionTag = (input, array) => {
+  const allIngred = getIngredients(array)
   // Tous les ingrédients qui correspondent à l'input sont mis dans un array
-  let ingredientsFilter = arrayIngred.filter((list) =>
+  let ingredientsFilter = allIngred.filter((list) =>
     normalize(list.name).includes(input)
   )
   ingredientsFilter = Array.from(new Set(ingredientsFilter))
@@ -40,18 +41,20 @@ export const searchIngredientsFunctionTag = (input, arrayIngred) => {
 }
 
 // Fonction de recherche sur l'input du select appareils
-export const searchDevicesFunctionTag = (input, arrayIngred) => {
+export const searchDevicesFunctionTag = (input, array) => {
+  const allDevices = getAppliance(array)
   // Tous les ingrédients qui correspondent à l'input sont mis dans un array
-  const devicesFilter = arrayIngred.filter((list) =>
+  const devicesFilter = allDevices.filter((list) =>
     normalize(list.name).includes(input)
   )
   return devicesFilter
 }
 
 // Fonction de recherche sur l'input du select ustensiles
-export const searchUstensilsFunctionTag = (input, arrayIngred) => {
+export const searchUstensilsFunctionTag = (input, array) => {
+  const allUstensils = getUstensils(array)
   // Tous les ustensiles qui correspondent à l'input sont mis dans un array
-  const ustensilsFilter = arrayIngred.filter((list) =>
+  const ustensilsFilter = allUstensils.filter((list) =>
     normalize(list.name).includes(input)
   )
   return ustensilsFilter

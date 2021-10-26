@@ -1,15 +1,14 @@
 import { displayRecipes, noRecipesMatch } from './displayFunctions.js';
-import { getAppliance, getIngredients, getUstensils } from './searchFunctions.js';
-import { allDevices, allIngredients, listItemsDevices, listItemsIngredients, listItemsUstensils } from './constantes.js';
+import { getAppliance, getIngredients, getUstensils, searchDevicesFunctionTag, searchIngredientsFunctionTag, searchUstensilsFunctionTag } from './searchFunctions.js';
+import { allDevices, allIngredients, inputTagDevices, inputTagIngredients, inputTagUstensils, listItemsDevices, listItemsIngredients, listItemsUstensils } from './constantes.js';
+import { normalize } from './utils.js';
 
 export class Tags {
-    constructor() {
-
-    }
     tagList = [];
     recipesFilterByTags = [];
+
     // Affichage du tag
-    displayTags = (arrayRecipe) => {
+    displayTags = (arrayPreFilter) => {
         const wrapperTags = document.getElementById('wrapperTags');
         wrapperTags.innerHTML = ``;
         if (this.tagList.length) {
@@ -21,15 +20,16 @@ export class Tags {
             closeTag.forEach((btnClose) => {
                 btnClose.addEventListener('click', () => {
                     const currentTag = btnClose.previousSibling.textContent
-                    this.deleteTag(currentTag, arrayRecipe)
+                    this.deleteTag(currentTag, arrayPreFilter)
                 })
             })
         }
     }
+
     // Affichage des recettes triées par tags
-    filterRecipesByTags = (arrayRecipe) => {
+    filterRecipesByTags = (arrayPreFilter) => {
         //this.recipesFilterByTags = recipes;
-        this.recipesFilterByTags = arrayRecipe
+        this.recipesFilterByTags = arrayPreFilter
         const result = this.recipesFilterByTags.filter(recipe => {
             const ingredientList = recipe.ingredients.map(item => item.ingredient);
             const deviceList = [recipe.appliance.toLowerCase()];
@@ -41,24 +41,25 @@ export class Tags {
             return resultFilter
         });
         this.recipesFilterByTags = result;
-        this.displayIngredients(this.recipesFilterByTags, arrayRecipe)
-        this.displayDevice(this.recipesFilterByTags, arrayRecipe)
-        this.displayUstensils(this.recipesFilterByTags, arrayRecipe)
+        this.selectIngredient(this.recipesFilterByTags, arrayPreFilter)
+        this.selectDevices(this.recipesFilterByTags, arrayPreFilter)
+        this.selectUstensils(this.recipesFilterByTags, arrayPreFilter)
         return !this.recipesFilterByTags.length ? noRecipesMatch() : displayRecipes(this.recipesFilterByTags);
     }
     
-    addTag = (newTag, arrayRecipe) => {
+    addTag = (newTag, arrayPreFilter) => {
+        this.arrayPreFilter = arrayPreFilter
         this.tagList.push(newTag);
         this.tagList = Array.from(new Set (this.tagList))
         this.typeOfTag(newTag)
-        this.displayTags(arrayRecipe);
-        this.filterRecipesByTags(arrayRecipe);
+        this.displayTags(arrayPreFilter);
+        this.filterRecipesByTags(arrayPreFilter);
     }
     // Suppression du tag au click sur l'icone de fermeture
-    deleteTag = (tag, arrayRecipe) => {
+    deleteTag = (tag, arrayPreFilter) => {
         this.tagList = this.tagList.filter(item => item !== tag);
-        this.displayTags(arrayRecipe);
-        this.filterRecipesByTags(arrayRecipe);
+        this.displayTags(arrayPreFilter);
+        this.filterRecipesByTags(arrayPreFilter);
     }
     // On détermine le type de tag afin de lui attribuer la bonne couleur
     typeOfTag = (tag) => {
@@ -70,10 +71,9 @@ export class Tags {
         return isIngred ? color = "blue" : isDevices ? color = "green" : color = "red";
     }
     // Affichage des ingédients dans le select
-    displayIngredients = (array, arrayRecipe) => {
+    displayIngredients = (arrayIngredients, arrayPreFilter) => {
         listItemsIngredients.innerHTML=``;
-        const ingredientsByTag = getIngredients(array);
-        ingredientsByTag.forEach(ingredient => {
+        arrayIngredients.forEach(ingredient => {
             listItemsIngredients.innerHTML+=`<li><div class='keyword'>${ingredient.name}</div></li>`
         });
         // On remet le listener et la fonction addTag sur les nouveaux keywords
@@ -81,15 +81,15 @@ export class Tags {
         keyword.forEach((keywordItem) => {
             keywordItem.addEventListener('click', () => {
                 let newTag = keywordItem.innerHTML;
-                this.addTag(newTag,arrayRecipe)
+                inputTagIngredients.value = '';
+                this.addTag(newTag,arrayPreFilter)
             })
         })
     }
     // Affichage des ingrédients dans le select
-    displayDevice = (array, arrayRecipe) => {
+    displayDevice = (arrayDevices, arrayPreFilter) => {
         listItemsDevices.innerHTML=``;
-        const deviceByTag = getAppliance(array);
-        deviceByTag.forEach(device => {
+        arrayDevices.forEach(device => {
             listItemsDevices.innerHTML+=`<li><div class='keyword'>${device.name}</div></li>`
         });
         // On remet le listener et la fonction addTag sur les nouveaux keywords
@@ -97,24 +97,84 @@ export class Tags {
         keyword.forEach((keywordItem) => {
             keywordItem.addEventListener('click', () => {
                 let newTag = keywordItem.innerHTML;
-                this.addTag(newTag, arrayRecipe)
+                inputTagDevices.value = '';
+                this.addTag(newTag, arrayPreFilter)
             })
         })
     }
     // Affichage des ustensiles dans le select
-    displayUstensils = (array, arrayRecipe) => {
+    displayUstensils = (arrayUstensils, arrayPreFilter) => {
         listItemsUstensils.innerHTML=``;
-        const ustensilByTag = getUstensils(array);
-        ustensilByTag.forEach(ustensil => {
-        listItemsUstensils.innerHTML+=`<li><div class='keyword'>${ustensil.name}</div></li>`
+        arrayUstensils.forEach(ustensil => {
+            listItemsUstensils.innerHTML+=`<li><div class='keyword'>${ustensil.name}</div></li>`
         });
         // Ajout d'un listener sur les nouveaux keywords et on les ajoutes en tant que tag
         const keyword = document.querySelectorAll('.keyword')
         keyword.forEach((keywordItem) => {
             keywordItem.addEventListener('click', () => {
                 let newTag = keywordItem.innerHTML;
-                this.addTag(newTag, arrayRecipe)
+                inputTagUstensils.value = '';
+                this.addTag(newTag, arrayPreFilter)
             })
         })
     }
+    selectIngredient = (arrayFilterByTag, arrayPreFilter) => {
+        const arrayIngred = getIngredients(arrayFilterByTag)
+        // Fonction de recherche sur l'input du select ingredients
+        inputTagIngredients.addEventListener('keyup', () => {
+            const inputValueToLower = normalize(inputTagIngredients.value)
+          // Si moins de 3 caractères saisis, affichage des ingrédients non filtrés
+          if (inputValueToLower.length < 3) {
+            return this.displayIngredients(arrayIngred, arrayPreFilter)
+          }
+          // Sinon, affichage des ingrédients filtrés selon les données saisies
+          const arrayIngredFilter = searchIngredientsFunctionTag(
+            inputValueToLower,
+            arrayFilterByTag
+          )
+          return this.displayIngredients(arrayIngredFilter, arrayPreFilter)
+        })
+        this.displayIngredients(arrayIngred, arrayPreFilter)
+    }
+
+    selectDevices = (arrayFilterByTag, arrayPreFilter) => {
+        const arrayDevice = getAppliance(arrayFilterByTag)
+        // Fonction de recherche sur l'input du select appareil
+        inputTagDevices.addEventListener('keyup', () => {
+          const inputValueToLower = normalize(inputTagDevices.value)
+          // Si moins de 3 caractères saisis, affichage des appareils non filtrées
+          // Sinon, affichage des appareils filtrées selon les données saisies
+          if (inputValueToLower.length < 3) {
+            return this.displayDevice(arrayDevice, arrayPreFilter)
+          }
+          const arrayDeviceFilter = searchDevicesFunctionTag(
+            inputValueToLower,
+            arrayFilterByTag
+          )
+          return this.displayDevice(arrayDeviceFilter, arrayPreFilter)
+        })
+        this.displayDevice(arrayDevice, arrayPreFilter)
+    }
+
+    selectUstensils = (arrayFilterByTag, arrayPreFilter) => {
+        const arrayUstensils = getUstensils(arrayFilterByTag)
+        // Fonction de recherche sur l'input du select appareil
+        inputTagUstensils.addEventListener('keyup', () => {
+          const inputValueToLower = normalize(inputTagUstensils.value)
+          
+          // Si moins de 3 caractères saisis, affichage des ustensiles non filtrées
+          // Sinon, affichage des recettes filtrées selon les données saisies
+          if (inputValueToLower.length < 3) {
+            return this.displayUstensils(arrayUstensils, arrayPreFilter)
+          }
+          const arrayUstensFilter = searchUstensilsFunctionTag(
+            inputValueToLower,
+            arrayFilterByTag
+          )
+          // const arrayRecipeUstensFilter = arrayFilterByTag.filter(recipe => recipe.ustensils.map((liste) => normalize(liste)).includes(inputValueToLower))
+          return this.displayUstensils(arrayUstensFilter, arrayPreFilter)
+        })
+        this.displayUstensils(arrayUstensils, arrayPreFilter)
+    }
+
 }
