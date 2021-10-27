@@ -31,9 +31,9 @@ search.addEventListener('keyup', () => {
     return displayRecipes(preFilter)
   }
   // On applique le premier filtre correspondant à la valeur de l'input mainSearch
+  // const filter = searchBouclesNatives(inputValueToLower, preFilter)
   const filter = searchFunctionBuiltIn(preFilter, inputValueToLower)
   preFilter = filter
-  // copieArrayRecipes = searchBouclesNatives(inputValueToLower, copieArrayRecipes)
   if (!preFilter.length) {
     return noRecipesMatch()
   }

@@ -3,6 +3,7 @@
 import { comparaison, isInTheArray, normalize } from './utils.js'
 
 export const searchBouclesNatives = (input, arrayRecipes) => {
+  console.time('test')
   let arrayFilter = []
   // Itération sur la liste de toutes les recettes existantes
   for (let i = 0; i < arrayRecipes.length; i += 1) {
@@ -48,5 +49,6 @@ export const searchBouclesNatives = (input, arrayRecipes) => {
       }
     }
   }
+  console.timeEnd('test')
   return arrayFilter
 }
