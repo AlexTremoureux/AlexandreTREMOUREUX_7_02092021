@@ -8,7 +8,6 @@ import {
   initSelect,
   noRecipesMatch,
 } from './displayFunctions.js'
-import { searchFunctionBuiltIn } from './mainSearchVersionBuiltIn.js'
 import { searchBouclesNatives } from './mainSearchBouclesNatives.js'
 import { normalize } from './utils.js'
 
@@ -32,8 +31,7 @@ search.addEventListener('keyup', () => {
     return displayRecipes(preFilter)
   }
   // On applique le premier filtre correspondant à la valeur de l'input de la recherche principale
-  // const filter = searchBouclesNatives(inputValueToLower, preFilter)
-  const filter = searchFunctionBuiltIn(preFilter, inputValueToLower)
+  const filter = searchBouclesNatives(inputValueToLower, preFilter)
   preFilter = filter
   // Si le filtre ne donne aucun résultat, affichage d'un message d'erreur
   if (!preFilter.length) {
