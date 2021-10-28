@@ -20,18 +20,24 @@ import {
 import { normalize } from './utils.js'
 
 export class Tags {
+  // Array de tags
   tagList = []
+  // Nouvel array de recette filtrée par tags
   recipesFilterByTags = []
 
   // Affichage du tag
   displayTags = (arrayPreFilter) => {
+    // Réinitialisation du container de tags
     const wrapperTags = document.getElementById('wrapperTags')
     wrapperTags.innerHTML = ``
+    // On s'assure que l'array de tag ne soit pas vide
     if (this.tagList.length) {
       this.tagList.forEach((tag) => {
+        // On attribue une couleur au tag selon sa catégorie
         const color = this.typeOfTag(tag)
         wrapperTags.innerHTML += `<div class='tags ${color}'>${tag}<img class='closeTag' src="./images/close.svg" alt=""></div>`
       })
+      // Effacement du tag au click sur l'icone de fermeture
       const closeTag = document.querySelectorAll('.closeTag')
       closeTag.forEach((btnClose) => {
         btnClose.addEventListener('click', () => {
@@ -44,21 +50,21 @@ export class Tags {
 
   // Affichage des recettes triées par tags
   filterRecipesByTags = (arrayPreFilter) => {
-    //this.recipesFilterByTags = recipes;
     this.recipesFilterByTags = arrayPreFilter
     const result = this.recipesFilterByTags.filter((recipe) => {
+      // On vient chercher les ingrédients, appareils et ustensiles présents dans la recette
       const ingredientList = recipe.ingredients.map((item) =>
         normalize(item.ingredient)
       )
       const deviceList = [normalize(recipe.appliance)]
       const ustensilList = recipe.ustensils.map((ustens) => normalize(ustens))
-      // ajoute dans un tableau les tags présents dans tagList si ils sont trouvés dans une recette
+      // On crée un nouveau tableau contenants les ingrédients/ appareils/ ustensiles présent dans la recette et présents dans tagList
       const filter = this.tagList.filter((tag) =>
         [...ingredientList, ...deviceList, ...ustensilList].includes(
           normalize(tag)
         )
       )
-      // Si le nombre de tags est le même dans les deux tableaux, on return true et la recette est rajoutée au tableau
+      // Si le nombre de tags est le même dans les deux tableaux, on return true et la recette est conservée dans le tableau de filtre
       const resultFilter = filter.length === this.tagList.length
       return resultFilter
     })
@@ -66,20 +72,20 @@ export class Tags {
     this.selectIngredient(this.recipesFilterByTags, arrayPreFilter)
     this.selectDevices(this.recipesFilterByTags, arrayPreFilter)
     this.selectUstensils(this.recipesFilterByTags, arrayPreFilter)
+    // Si l'array est vide, on retourne un message d'erreur, sinon on affiche les recettes de l'array
     return !this.recipesFilterByTags.length
       ? noRecipesMatch()
       : displayRecipes(this.recipesFilterByTags)
   }
-
+  // Méthode de départ qui ajoute le mot clé aui a été cliqué à la liste de tags
   addTag = (newTag, arrayPreFilter) => {
-    this.arrayPreFilter = arrayPreFilter
     this.tagList.push(newTag)
     this.tagList = Array.from(new Set(this.tagList))
     this.typeOfTag(newTag)
     this.displayTags(arrayPreFilter)
     this.filterRecipesByTags(arrayPreFilter)
   }
-  // Suppression du tag au click sur l'icone de fermeture
+  // Suppression du tag de tagList , réaffichage des tags et refiltre 
   deleteTag = (tag, arrayPreFilter) => {
     this.tagList = this.tagList.filter((item) => item !== tag)
     this.displayTags(arrayPreFilter)
@@ -104,7 +110,7 @@ export class Tags {
     arrayIngredients.forEach((ingredient) => {
       listItemsIngredients.innerHTML += `<li><div class='keyword'>${ingredient.name}</div></li>`
     })
-    // On remet le listener et la fonction addTag sur les nouveaux keywords
+    // On remet le listener et la méthode addTag sur les nouveaux keywords
     const keyword = document.querySelectorAll('.keyword')
     keyword.forEach((keywordItem) => {
       keywordItem.addEventListener('click', () => {

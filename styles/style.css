@@ -310,6 +310,7 @@ h3, p {
         margin: 250px auto auto auto;
     }
 }
+/*----------Media-Queries: 4K------------*/
 @media screen and (min-width: 2560px) {
     .filter {
         position: absolute;

@@ -16,11 +16,6 @@ import {
   selectIngredient,
   selectUstensils,
 } from './searchByTags.js'
-import {
-  getAppliance,
-  getIngredients,
-  getUstensils,
-} from './searchFunctions.js'
 
 // Si aucun résultat ne match, affichage d'un message avec suggestion de recherche
 export const noRecipesMatch = () => {

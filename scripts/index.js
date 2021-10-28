@@ -19,64 +19,31 @@ eventClickOnSelectUstensils()
 
 let preFilter = recipes
 
+// Listener sur l'input de la recherche principale
 search.addEventListener('keyup', () => {
-  // On réinitialise l'array à sa valeur initiale
+  // On réinitialise l'array à sa valeur initiale ainsi que les tags qui auraient été séléctionnés lors d'une précédente recherche
   preFilter = recipes
   const inputValueToLower = normalize(search.value)
   const wrapperTags = document.getElementById('wrapperTags')
   wrapperTags.innerHTML = ``
-  // Si moins de 3 caractères saisis, affichage des recettes, et des items des différents select non filtrés
+  // Si moins de 3 caractères saisis, affichage des recettes, et des mots clés des différents selects non filtrés
   if (inputValueToLower.length < 3) {
     initSelect(preFilter)
     return displayRecipes(preFilter)
   }
-  // On applique le premier filtre correspondant à la valeur de l'input mainSearch
+  // On applique le premier filtre correspondant à la valeur de l'input de la recherche principale
   // const filter = searchBouclesNatives(inputValueToLower, preFilter)
   const filter = searchFunctionBuiltIn(preFilter, inputValueToLower)
   preFilter = filter
+  // Si le filtre ne donne aucun résultat, affichage d'un message d'erreur
   if (!preFilter.length) {
     return noRecipesMatch()
   }
-  // Affichage des recettes et des items des différents select filtrés selon les données saisies
+  // Affichage des recettes et des mots clés des différents selects filtrés selon les données saisies
   initSelect(preFilter)
   return displayRecipes(preFilter)
 })
 
+// Affichage des recettes, et des mots clés des différents selects non filtrés pour que l'utilisateur puisse commencer par une recherche par mots clés
 initSelect(preFilter)
 displayRecipes(preFilter)
-
-/*
-const filters = (() => {
-  let copieArrayRecipes = recipes
-
-  const filterMainSearch = (() => {
-    search.addEventListener('keyup', () => {
-      // On réinitialise l'array à sa valeur initiale
-      copieArrayRecipes = recipes
-      const inputValueToLower = normalize(search.value)
-
-      // Si moins de 3 caractères saisis, affichage des recettes, et des items des différents select non filtrés
-      if (inputValueToLower.length < 3) {
-        initSelect(copieArrayRecipes)
-        return displayRecipes(copieArrayRecipes)
-      }
-      // On applique le premier filtre correspondant à la valeur de l'input mainSearch
-      copieArrayRecipes = searchFunctionBuiltIn(
-        copieArrayRecipes,
-        inputValueToLower
-      )
-      // copieArrayRecipes = searchBouclesNatives(inputValueToLower, copieArrayRecipes)
-      if (!copieArrayRecipes.length) {
-        return noRecipesMatch()
-      }
-      // Affichage des recettes et des items des différents select filtrés selon les données saisies
-      initSelect(copieArrayRecipes)
-      return displayRecipes(copieArrayRecipes)
-    })
-  })()
-
-  // Si aucune entrée sur l'input, affichage des recettes et des items des différents select non filtrés
-  initSelect(copieArrayRecipes)
-  return displayRecipes(copieArrayRecipes)
-})()
-*/

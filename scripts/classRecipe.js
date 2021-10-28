@@ -12,7 +12,7 @@ export class Recipe {
     this.addIngredients(ingredients)
   }
 
-  // Construction de DOM et affichage du titre / durée / description de la recette.
+  // Construction du DOM et affichage du titre / durée / description de la recette.
   buildDom(title, time, description) {
     this.title = title
     this.time = time
@@ -51,7 +51,6 @@ export class Recipe {
       const domListeIngredients = document.createElement('li')
       domIngredients.appendChild(domListeIngredients)
       const quantity = ingred.quantity || ingred.quantite
-      // const unity = ingred.unit.replace('grammes','g')
       if (quantity) {
         domListeIngredients.innerHTML += `
           <p><h3>${ingred.ingredient} :</h3><span class="quantity">

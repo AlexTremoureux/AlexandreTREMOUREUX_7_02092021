@@ -21,6 +21,7 @@ export const searchBouclesNatives = (input, arrayRecipes) => {
     }
     // Si l'id de la recette courante est présente dans le tableau on passe à la recette suivante
     if (isInTheArray(recipe.id, arrayFilter)) {
+      // Continue arrête l'exécution des instructions pour l'itération de la boucle courante, on passe à l'itération suivante
       continue
     }
 
@@ -29,6 +30,7 @@ export const searchBouclesNatives = (input, arrayRecipes) => {
       const isTrue = comparaison(arrayWordsDescriptionRecipe[k], input)
       if (isTrue) {
         arrayFilter = [...arrayFilter, recipe]
+        // Break permet de terminer la boucle en cours et de passer à l'instruction suivant l'instruction terminée.
         break
       }
     }
