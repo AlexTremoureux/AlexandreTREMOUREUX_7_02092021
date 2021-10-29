@@ -6,7 +6,6 @@ import { normalize } from './utils.js'
  * @returns array
  */
 export const searchFunctionBuiltIn = (arrayRecipe, input) => {
-  console.time('test')
   // Retourne les recettes dont le titre inclu la valeur saisie par l'utilisateur
   const resultName = arrayRecipe.filter((recipe) =>
     normalize(recipe.name).includes(input)
@@ -28,6 +27,5 @@ export const searchFunctionBuiltIn = (arrayRecipe, input) => {
   arrayRecipe = Array.from(
     new Set([...resultName, ...resultDescription, ...resultIngredient])
   )
-  console.timeEnd('test')
   return arrayRecipe
 }
