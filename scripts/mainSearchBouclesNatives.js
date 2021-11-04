@@ -13,7 +13,6 @@ export const searchBouclesNatives = (input, arrayRecipes) => {
     const ingredientsOfRecipe = recipe.ingredients
 
     // Si le titre de la recette courante correspond à l'input, ajout de la recette au tableau
-
     const nameRecipeIsTrue = comparaison(arrayWordsTitleRecipe, input)
     if (nameRecipeIsTrue) {
       arrayFilter = [...arrayFilter, recipe]
@@ -45,7 +44,6 @@ export const searchBouclesNatives = (input, arrayRecipes) => {
       const arrayOfIngredientsRecipe = [normalize(listOfIngredient.ingredient)]
       for (let n = 0; n < arrayOfIngredientsRecipe.length; n += 1) {
         const isTrue = comparaison(arrayOfIngredientsRecipe[n], input)
-        console.log(isTrue)
         if (isTrue) {
           console.log(recipe)
           arrayFilter = [...arrayFilter, recipe]
