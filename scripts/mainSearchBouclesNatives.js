@@ -8,17 +8,17 @@ export const searchBouclesNatives = (input, arrayRecipes) => {
   // Itération sur la liste de toutes les recettes existantes
   for (let i = 0; i < arrayRecipes.length; i += 1) {
     const recipe = arrayRecipes[i]
-    const arrayWordsTitleRecipe = [normalize(recipe.name)]
+    const arrayWordsTitleRecipe = normalize(recipe.name)
     const arrayWordsDescriptionRecipe = normalize(recipe.description).split(' ')
     const ingredientsOfRecipe = recipe.ingredients
 
     // Si le titre de la recette courante correspond à l'input, ajout de la recette au tableau
-    for (let j = 0; j < arrayWordsTitleRecipe.length; j += 1) {
-      const isTrue = comparaison(arrayWordsTitleRecipe[j], input)
-      if (isTrue) {
-        arrayFilter = [...arrayFilter, recipe]
-      }
+
+    const nameRecipeIsTrue = comparaison(arrayWordsTitleRecipe, input)
+    if (nameRecipeIsTrue) {
+      arrayFilter = [...arrayFilter, recipe]
     }
+
     // Si l'id de la recette courante est présente dans le tableau on passe à la recette suivante
     if (isInTheArray(recipe.id, arrayFilter)) {
       // Continue arrête l'exécution des instructions pour l'itération de la boucle courante, on passe à l'itération suivante
@@ -45,7 +45,9 @@ export const searchBouclesNatives = (input, arrayRecipes) => {
       const arrayOfIngredientsRecipe = [normalize(listOfIngredient.ingredient)]
       for (let n = 0; n < arrayOfIngredientsRecipe.length; n += 1) {
         const isTrue = comparaison(arrayOfIngredientsRecipe[n], input)
+        console.log(isTrue)
         if (isTrue) {
+          console.log(recipe)
           arrayFilter = [...arrayFilter, recipe]
         }
       }

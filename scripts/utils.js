@@ -26,18 +26,19 @@ export const isInTheArray = (currentId, array) => {
  */
 // Comparaison de chaque lettre de l'input avec chaque lettre du mot à comparer
 export const comparaison = (mot, input) => {
+  let numberOfMatch = 0
   for (let i = 0; i < input.length; i += 1) {
     const element = input[i]
     if (element !== mot[i]) {
       return false
     }
+    numberOfMatch += 1
   }
-  return true
+  return numberOfMatch === input.length
 }
 
 // La méthode charAt() renvoie une nouvelle chaîne contenant le caractère à la position indiquée en argument.
 // La méthode slice() renvoie une copie de la chaîne de départ de laquelle on a extrait une portion indiquée par l'index de début d'extraction
 export function capitalizeFirstLetter(string) {
-  console.log(string.slice(1))
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
